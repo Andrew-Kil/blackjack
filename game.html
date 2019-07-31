@@ -11,7 +11,7 @@
     <script type="text/javascript">
       class Deck {
         constructor() {
-          this.deck = [];
+          this.cards = [];
           this.suits = ["clubs", "diamonds", "hearts", "spades"];
           this.ranks = [
             "A",
@@ -29,15 +29,28 @@
             "K"
           ];
         }
-        createDeck(ranks, suits) {
-          for (let rank of ranks) {
-            for (let suit of suits) {
-              this.deck.push(`${rank}  ${suit}`);
+        createDeck() {
+          for (let rank of this.ranks) {
+            for (let suit of this.suits) {
+              this.cards.push(`${rank} ${suit}`);
             }
           }
-          console.log(createDeck(suits, ranks));
+        }
+        shuffleDeck() {
+          this.cards.sort(() => {
+            Math.random();
+          });
         }
       }
+
+      let deck = new Deck();
+
+      deck.createDeck();
+
+      console.log(deck.cards);
+
+      console.log(deck.shuffleDeck());
+      // sorting does not shuffle properly yet
     </script>
   </body>
 </html>
