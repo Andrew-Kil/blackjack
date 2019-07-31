@@ -37,20 +37,21 @@
           }
         }
         shuffleDeck() {
-          this.cards.sort(() => {
-            Math.random();
-          });
+          for (let i = this.cards.length; i; i--) {
+            let j = Math.floor(Math.random() * i);
+            [this.cards[i - 1], this.cards[j]] = [
+              this.cards[j],
+              this.cards[i - 1]
+            ];
+          }
         }
       }
 
       let deck = new Deck();
-
       deck.createDeck();
-
-      console.log(deck.cards);
-
-      console.log(deck.shuffleDeck());
-      // sorting does not shuffle properly yet
+      deck.cards;
+      deck.shuffleDeck();
+      deck.cards;
     </script>
   </body>
 </html>
