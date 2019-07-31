@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" dir="ltr" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Blackjack</title>
+  </head>
+  <body>
+    <div id="blackjack_container"></div>
+    <script type="text/javascript">
+      class Deck {
+        constructor() {
+          this.deck = [];
+          this.suits = ["clubs", "diamonds", "hearts", "spades"];
+          this.ranks = [
+            "A",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "J",
+            "Q",
+            "K"
+          ];
+        }
+        createDeck(ranks, suits) {
+          for (let rank of ranks) {
+            for (let suit of suits) {
+              this.deck.push(`${rank}  ${suit}`);
+            }
+          }
+          console.log(createDeck(suits, ranks));
+        }
+      }
+    </script>
+  </body>
+</html>
