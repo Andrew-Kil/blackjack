@@ -9,6 +9,13 @@
   <body>
     <div id="blackjack_container"></div>
     <script type="text/javascript">
+      let playerTurn = true;
+      let dealerTurn = false;
+      // by default, player always goes before dealer
+
+      let startGame = false;
+      // if startGame is true, player is dealt 1 card, dealer is dealt 1 card (face-down), player is dealt 1 card,  dealer is dealt 1 card (face-up). playerTurn is true, player goes first
+
       class Deck {
         constructor() {
           this.cards = [];
@@ -56,6 +63,18 @@
       class Player {
         constructor() {
           this.hand = [];
+          this.score = 0;
+        }
+        calculateScore() {
+          // calculateScore is called every time the player performs an action
+          this.score = this.hand.reduce((a, b) => a + b);
+        }
+        checkHand() {
+          // checkHand is called every time the player performs an action (after calculateScore)
+          if (this.score > 21) {
+            playerTurn = false;
+            dealerTurn = true;
+          }
         }
         stand() {
           // player turn ends and dealer turn begins. dealer reveals hidden card and performs their series of events
@@ -64,10 +83,6 @@
           // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins
         }
       }
-
-      let playerTurn = true;
-      let dealerTurn = false;
-      // by default, player always goes before dealer
     </script>
   </body>
 </html>
