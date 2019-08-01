@@ -22,9 +22,6 @@ const ranks = [
   "K"
 ];
 
-let playerScore = 0;
-let dealerScore = 0;
-
 class Card {
   constructor(rank, suit) {
     this.rank = rank;
@@ -57,14 +54,15 @@ class Deck {
 class Player {
   constructor() {
     this.hand = [];
+    this.score = 0;
   }
   calculateScore() {
     // calculateScore is called every time the player performs an action
-    playerScore = this.hand.reduce((a, b) => a + b);
+    this.score = this.hand.reduce((a, b) => a + b);
   }
   checkHand() {
     // checkHand is called every time the player performs an action (after calculateScore)
-    if (playerScore > 21) {
+    if (this.score > 21) {
       playerTurn = false;
       dealerTurn = true;
     }
@@ -76,6 +74,12 @@ class Player {
     // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins
   }
 }
+
+const convertRankToValue = rank => {
+  if (rank === "J" || rank === "Q" || rank === "K") return 10;
+  if (rank === "A") return 11;
+  else return +rank;
+};
 
 let deck = new Deck();
 deck.createDeck();
@@ -89,3 +93,5 @@ console.log(deck.cards.length);
 console.log("draw", deck.dealCard());
 console.log(deck.cards.length);
 console.log(deck.cards);
+
+console.log("card is ", deck.cards[0], convertRankToValue(deck.cards[0].rank));
