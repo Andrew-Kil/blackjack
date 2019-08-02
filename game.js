@@ -26,6 +26,7 @@ class Card {
   constructor(rank, suit) {
     this.rank = rank;
     this.suit = suit;
+    this.value = convertRankToValue(rank);
   }
 }
 
@@ -58,17 +59,22 @@ class Player {
   }
   calculateScore() {
     // calculateScore is called every time the player performs an action
-    this.score = this.hand.reduce((a, b) => a + b);
+    // this.score = this.hand.reduce((a, b) => a + b);
+  }
+  endTurn() {
+    playerTurn = !playerTurn;
+    dealerTurn = !dealerTurn;
   }
   checkHand() {
     // checkHand is called every time the player performs an action (after calculateScore)
+    this.calculateScore();
     if (this.score > 21) {
-      playerTurn = false;
-      dealerTurn = true;
+      this.endTurn();
     }
   }
   stand() {
     // player turn ends and dealer turn begins. dealer reveals hidden card and performs their series of events
+    this.endTurn();
   }
   hit() {
     // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins
@@ -95,3 +101,13 @@ console.log(deck.cards.length);
 console.log(deck.cards);
 
 console.log("card is ", deck.cards[0], convertRankToValue(deck.cards[0].rank));
+
+let bob = new Player();
+console.log("playerTurn ", playerTurn);
+console.log("dealerTurn ", dealerTurn);
+bob.endTurn();
+console.log("playerTurn ", playerTurn);
+console.log("dealerTurn ", dealerTurn);
+bob.stand();
+console.log("playerTurn ", playerTurn);
+console.log("dealerTurn ", dealerTurn);
