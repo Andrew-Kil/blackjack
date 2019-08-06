@@ -59,6 +59,11 @@ class Deck {
   dealCard() {
     return this.cards.shift();
   }
+  convertRankToValue(rank) {
+    if (["J", "Q", "K"].includes(rank)) return 10;
+    else if (rank === "A") return 11;
+    else return +rank;
+  }
 }
 
 class Player {
@@ -89,12 +94,6 @@ class Player {
     // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins
   }
 }
-
-const convertRankToValue = rank => {
-  if (["J", "Q", "K"].includes(rank)) return 10;
-  else if (rank === "A") return 11;
-  else return +rank;
-};
 
 let game = new Game();
 game.newGame();
