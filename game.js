@@ -5,22 +5,31 @@ let dealerTurn = false;
 let startGame = false;
 // if startGame is true, player is dealt 1 card, dealer is dealt 1 card (face-down), player is dealt 1 card,  dealer is dealt 1 card (face-up). playerTurn is true, player goes first
 
-const suits = ["clubs", "diamonds", "hearts", "spades"];
-const ranks = [
-  "A",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "J",
-  "Q",
-  "K"
-];
+class Game {
+  constructor() {
+    this.suits = ["clubs", "diamonds", "hearts", "spades"];
+    this.ranks = [
+      "A",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "J",
+      "Q",
+      "K"
+    ];
+    this.newDeck = new Deck();
+  }
+  newGame() {
+    this.newDeck.createDeck();
+    this.newDeck.shuffleDeck();
+  }
+}
 
 class Card {
   constructor(rank, suit) {
@@ -82,32 +91,38 @@ class Player {
 }
 
 const convertRankToValue = rank => {
-  if (rank === "J" || rank === "Q" || rank === "K") return 10;
-  if (rank === "A") return 11;
+  if (["J", "Q", "K"].includes(rank)) return 10;
+  else if (rank === "A") return 11;
   else return +rank;
 };
 
-let deck = new Deck();
-deck.createDeck();
-console.log(deck.cards);
-deck.shuffleDeck();
-console.log(deck.cards);
-console.log("draw", deck.dealCard());
-console.log(deck.cards.length);
-console.log("draw", deck.dealCard());
-console.log(deck.cards.length);
-console.log("draw", deck.dealCard());
-console.log(deck.cards.length);
-console.log(deck.cards);
+let game = new Game();
+game.newGame();
+console.log(newDeck);
 
-console.log("card is ", deck.cards[0], convertRankToValue(deck.cards[0].rank));
+// let deck = new Deck();
+// deck.createDeck();
+// console.log(deck.cards);
+// deck.shuffleDeck();
+// console.log(deck.cards);
+// console.log("draw", deck.dealCard());
+// console.log(deck.cards.length);
+// console.log("draw", deck.dealCard());
+// console.log(deck.cards.length);
+// console.log("draw", deck.dealCard());
+// console.log(deck.cards.length);
+// console.log(deck.cards);
 
-let bob = new Player();
-console.log("playerTurn ", playerTurn);
-console.log("dealerTurn ", dealerTurn);
-bob.endTurn();
-console.log("playerTurn ", playerTurn);
-console.log("dealerTurn ", dealerTurn);
-bob.stand();
-console.log("playerTurn ", playerTurn);
-console.log("dealerTurn ", dealerTurn);
+// console.log("card is ", deck.cards[0], convertRankToValue(deck.cards[0].rank));
+
+// let bob = new Player();
+// console.log("playerTurn ", playerTurn);
+// console.log("dealerTurn ", dealerTurn);
+// bob.endTurn();
+// console.log("playerTurn ", playerTurn);
+// console.log("dealerTurn ", dealerTurn);
+// bob.stand();
+// console.log("playerTurn ", playerTurn);
+// console.log("dealerTurn ", dealerTurn);
+
+// let dealer = new Player();
