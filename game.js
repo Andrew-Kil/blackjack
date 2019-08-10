@@ -1,14 +1,39 @@
-let playerTurn = true;
-let dealerTurn = false;
-// by default, player always goes before dealer
-
-let startGame = false;
-// if startGame is true, player is dealt 1 card, dealer is dealt 1 card (face-down), player is dealt 1 card,  dealer is dealt 1 card (face-up). playerTurn is true, player goes first
-
 class Game {
   constructor() {
-    this.suits = ["clubs", "diamonds", "hearts", "spades"];
-    this.ranks = [
+    this.newDeck = new Deck();
+    this.playerTurn = true;
+    this.dealerTurn = false;
+    // by default, player always goes before dealer
+    this.startGame = false;
+    // if startGame is true, player is dealt 1 card, dealer is dealt 1 card (face-down), player is dealt 1 card,  dealer is dealt 1 card (face-up). playerTurn is true, player goes first
+  }
+  newGame() {
+    this.newDeck.createDeck();
+    this.newDeck.shuffleDeck();
+  }
+}
+
+class Card {
+  constructor(rank, suit) {
+    this.rank = rank;
+    this.suit = suit;
+    this.value = this.convertRankToValue(rank);
+  }
+  convertRankToValue(rank) {
+    if (["J", "Q", "K"].includes(rank)) return 10;
+    else if (rank === "A") return 11;
+    else return +rank;
+  }
+}
+
+class Deck {
+  constructor() {
+    this.cards = this.createDeck();
+  }
+  createDeck() {
+    const cards = [];
+    const suits = ["clubs", "diamonds", "hearts", "spades"];
+    const ranks = [
       "A",
       "2",
       "3",
@@ -23,32 +48,12 @@ class Game {
       "Q",
       "K"
     ];
-    this.newDeck = new Deck();
-  }
-  newGame() {
-    this.newDeck.createDeck();
-    this.newDeck.shuffleDeck();
-  }
-}
-
-class Card {
-  constructor(rank, suit) {
-    this.rank = rank;
-    this.suit = suit;
-    this.value = convertRankToValue(rank);
-  }
-}
-
-class Deck {
-  constructor() {
-    this.cards = [];
-  }
-  createDeck() {
     for (let rank of ranks) {
       for (let suit of suits) {
-        this.cards.push(new Card(rank, suit));
+        cards.push(new Card(rank, suit));
       }
     }
+    return cards;
   }
   shuffleDeck() {
     for (let i = this.cards.length; i; i--) {
@@ -58,11 +63,6 @@ class Deck {
   }
   dealCard() {
     return this.cards.shift();
-  }
-  convertRankToValue(rank) {
-    if (["J", "Q", "K"].includes(rank)) return 10;
-    else if (rank === "A") return 11;
-    else return +rank;
   }
 }
 
@@ -96,8 +96,13 @@ class Player {
 }
 
 let game = new Game();
-game.newGame();
-console.log(newDeck);
+console.log(game.newDeck);
+let deck = new Deck();
+deck.createDeck();
+deck.shuffleDeck();
+deck.dealCard();
+// console.log(game);
+console.log(deck);
 
 // let deck = new Deck();
 // deck.createDeck();
