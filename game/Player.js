@@ -1,15 +1,18 @@
+const Deck = require("./Deck.js");
+
 module.exports = class Player {
   constructor() {
     this.hand = [];
     this.score = 0;
+    this.bank = 5000;
+    this.turn = false;
   }
   calculateScore() {
     // calculateScore is called every time the player performs an action
-    // this.score = this.hand.reduce((a, b) => a + b);
+    this.hand.forEach(card => (this.score += card.value));
   }
   endTurn() {
-    playerTurn = !playerTurn;
-    dealerTurn = !dealerTurn;
+    this.turn = !this.turn;
   }
   checkHand() {
     // checkHand is called every time the player performs an action (after calculateScore)

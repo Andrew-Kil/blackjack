@@ -35,7 +35,7 @@ module.exports = class Deck {
       [this.cards[i - 1], this.cards[j]] = [this.cards[j], this.cards[i - 1]];
     }
   }
-  dealCard() {
+  drawCard() {
     return this.cards.shift();
   }
 };
