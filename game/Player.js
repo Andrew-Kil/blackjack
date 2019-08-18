@@ -1,6 +1,4 @@
-const Deck = require("./Deck.js");
-
-module.exports = class Player {
+class Player {
   constructor() {
     this.hand = [];
     this.score = 0;
@@ -28,4 +26,6 @@ module.exports = class Player {
   hit() {
     // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins
   }
-};
+}
+
+export default Player;

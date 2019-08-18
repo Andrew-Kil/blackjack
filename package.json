@@ -1,0 +1,24 @@
+{
+  "name": "blackjack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build index.html",
+    "dev": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrew-Kil/blackjack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrew-Kil/blackjack/issues"
+  },
+  "homepage": "https://github.com/Andrew-Kil/blackjack#readme",
+  "dependencies": {
+    "parcel": "^1.12.3"
+  }
+}

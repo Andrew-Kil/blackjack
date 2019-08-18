@@ -1,6 +1,6 @@
-const Card = require("./Card.js");
+import Card from "./Card.js";
 
-module.exports = class Deck {
+class Deck {
   constructor() {
     this.cards = this.createDeck();
   }
@@ -38,4 +38,6 @@ module.exports = class Deck {
   drawCard() {
     return this.cards.shift();
   }
-};
+}
+
+export default Deck;

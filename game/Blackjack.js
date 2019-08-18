@@ -1,7 +1,7 @@
-const Player = require("./Player.js");
-const Deck = require("./Deck.js");
+import Player from "./Player.js";
+import Deck from "./Deck.js";
 
-module.exports = class Blackjack {
+class Blackjack {
   constructor() {
     this.player = new Player();
     this.dealer = new Player();
@@ -37,4 +37,6 @@ module.exports = class Blackjack {
   checkHand(whichPlayer) {
     whichPlayer.checkHand(whichPlayer.hand);
   }
-};
+}
+
+export default Blackjack;

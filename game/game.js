@@ -1,4 +1,5 @@
-const Blackjack = require("./Blackjack.js");
+import Blackjack from "./Blackjack.js";
 
 const game = new Blackjack();
+
 game.start();
