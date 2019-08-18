@@ -8,6 +8,7 @@ class Player {
   calculateScore() {
     // calculateScore is called every time the player performs an action
     this.hand.forEach(card => (this.score += card.value));
+    return this.score;
   }
   endTurn() {
     this.turn = !this.turn;
