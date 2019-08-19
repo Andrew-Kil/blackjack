@@ -5,85 +5,112 @@ const game = new Blackjack();
 
 const rootDiv = document.getElementById("blackjack-container");
 
-const startButton = document.createElement("button");
+const betButton = document.createElement("button");
 
 const dealerDiv = document.createElement("div");
 const playerDiv = document.createElement("div");
 
-const startButtonText = document.createTextNode("start");
+const betButtonText = document.createTextNode("bet");
 
-startButton.setAttribute("id", "start-button");
-startButton.appendChild(startButtonText);
-rootDiv.appendChild(startButton);
+betButton.setAttribute("id", "bet-button");
+betButton.appendChild(betButtonText);
 
-document.getElementById("start-button").addEventListener("click", function() {
-  game.start();
+rootDiv.appendChild(betButton);
 
-  const dealerCardsDiv = document.createElement("div");
-  const playerCardsDiv = document.createElement("div");
+document.getElementById("bet-button").addEventListener("click", function() {
+  const betHundredButton = document.createElement("button");
+  const betHundredButtonText = document.createTextNode("100");
+  betHundredButton.setAttribute("id", "bet-hundred-button");
+  betHundredButton.appendChild(betHundredButtonText);
+  rootDiv.appendChild(betHundredButton);
 
-  const dealerScoreDiv = document.createElement("div");
-  const playerScoreDiv = document.createElement("div");
+  const playerBank = document.createElement("div");
+  const playerBankText = document.createTextNode(`$${game.player.bank}`);
+  playerBank.appendChild(playerBankText);
 
-  const dealerCardsText = document.createTextNode("dealer cards: ");
-  const playerCardsText = document.createTextNode("player cards: ");
+  const startButton = document.createElement("button");
+  const startButtonText = document.createTextNode("start");
+  startButton.setAttribute("id", "start-button");
+  startButton.appendChild(startButtonText);
+  rootDiv.appendChild(startButton);
 
-  const dealerScoreText = document.createTextNode("dealer score: ");
-  const playerScoreText = document.createTextNode("player score: ");
+  document.getElementById("start-button").addEventListener("click", function() {
+    game.start();
 
-  const dealerCardsNode = document.createTextNode(
-    game.dealer.hand.map(card => {
-      return `${card.value} of ${card.suit}`;
-    })
-  );
-  const playerCardsNode = document.createTextNode(
-    game.player.hand.map(card => {
-      return `${card.value} of ${card.suit}`;
-    })
-  );
+    const dealerCardsDiv = document.createElement("div");
+    const playerCardsDiv = document.createElement("div");
 
-  const dealerScoreNode = document.createTextNode(game.dealer.calculateScore());
-  let playerScoreNode = document.createTextNode(game.player.calculateScore());
+    const dealerScoreDiv = document.createElement("div");
+    const playerScoreDiv = document.createElement("div");
 
-  dealerCardsDiv.appendChild(dealerCardsText);
-  dealerCardsDiv.appendChild(dealerCardsNode);
-  dealerScoreDiv.appendChild(dealerScoreText);
-  dealerScoreDiv.appendChild(dealerScoreNode);
-  rootDiv.appendChild(dealerCardsDiv);
-  rootDiv.appendChild(dealerScoreDiv);
+    const dealerCardsText = document.createTextNode("dealer cards: ");
+    const playerCardsText = document.createTextNode("player cards: ");
 
-  playerCardsDiv.appendChild(playerCardsText);
-  playerCardsDiv.appendChild(playerCardsNode);
-  playerScoreDiv.appendChild(playerScoreText);
-  playerScoreDiv.appendChild(playerScoreNode);
-  rootDiv.appendChild(playerCardsDiv);
-  rootDiv.appendChild(playerScoreDiv);
+    const dealerScoreText = document.createTextNode("dealer score: ");
+    const playerScoreText = document.createTextNode("player score: ");
 
-  const standButton = document.createElement("button");
-  const standButtonText = document.createTextNode("stand");
-  standButton.setAttribute("id", "stand-button");
-  standButton.appendChild(standButtonText);
-  rootDiv.appendChild(standButton);
-
-  document.getElementById("stand-button").addEventListener("click", function() {
-    game.player.stand();
-  });
-
-  const hitButton = document.createElement("button");
-  const hitButtonText = document.createTextNode("hit");
-  hitButton.setAttribute("id", "hit-button");
-  hitButton.appendChild(hitButtonText);
-  rootDiv.appendChild(hitButton);
-
-  document.getElementById("hit-button").addEventListener("click", function() {
-    game.player.hit();
-
-    const lastCard = game.player.hand[game.player.hand.length - 1];
-    const playerNewCardNode = document.createTextNode(
-      `,${lastCard.value} of ${lastCard.suit}`
+    const dealerCardsNode = document.createTextNode(
+      game.dealer.hand.map(card => {
+        return `${card.value} of ${card.suit}`;
+      })
     );
-    playerCardsDiv.appendChild(playerNewCardNode);
+    const playerCardsNode = document.createTextNode(
+      game.player.hand.map(card => {
+        return `${card.value} of ${card.suit}`;
+      })
+    );
 
-    playerScoreNode.nodeValue = `${game.player.calculateScore()}`;
+    const dealerScoreNode = document.createTextNode(
+      game.dealer.calculateScore()
+    );
+    let playerScoreNode = document.createTextNode(game.player.calculateScore());
+
+    dealerCardsDiv.appendChild(dealerCardsText);
+    dealerCardsDiv.appendChild(dealerCardsNode);
+    dealerScoreDiv.appendChild(dealerScoreText);
+    dealerScoreDiv.appendChild(dealerScoreNode);
+    dealerDiv.appendChild(dealerCardsDiv);
+    dealerDiv.appendChild(dealerScoreDiv);
+    rootDiv.appendChild(dealerDiv);
+
+    playerCardsDiv.appendChild(playerCardsText);
+    playerCardsDiv.appendChild(playerCardsNode);
+    playerScoreDiv.appendChild(playerScoreText);
+    playerScoreDiv.appendChild(playerScoreNode);
+    playerDiv.appendChild(playerCardsDiv);
+    playerDiv.appendChild(playerScoreDiv);
+    rootDiv.appendChild(playerDiv);
+
+    const standButton = document.createElement("button");
+    const standButtonText = document.createTextNode("stand");
+    standButton.setAttribute("id", "stand-button");
+    standButton.appendChild(standButtonText);
+    rootDiv.appendChild(standButton);
+
+    document
+      .getElementById("stand-button")
+      .addEventListener("click", function() {
+        game.player.stand();
+      });
+
+    const hitButton = document.createElement("button");
+    const hitButtonText = document.createTextNode("hit");
+    hitButton.setAttribute("id", "hit-button");
+    hitButton.appendChild(hitButtonText);
+    rootDiv.appendChild(hitButton);
+
+    document.getElementById("hit-button").addEventListener("click", function() {
+      game.player.hit();
+
+      const lastCard = game.player.hand[game.player.hand.length - 1];
+      const playerNewCardNode = document.createTextNode(
+        `,${lastCard.value} of ${lastCard.suit}`
+      );
+      playerCardsDiv.appendChild(playerNewCardNode);
+
+      playerScoreNode.nodeValue = `${game.player.calculateScore()}`;
+    });
   });
+
+  // game.bet();
 });
