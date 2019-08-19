@@ -59,5 +59,10 @@ document.getElementById("start-button").addEventListener("click", function() {
 
   document.getElementById("hit-button").addEventListener("click", function() {
     game.player.hit();
+    const lastCard = game.player.hand[game.player.hand.length - 1];
+    const playerNewCardNode = document.createTextNode(
+      `,${lastCard.value} of ${lastCard.suit}`
+    );
+    playerDiv.appendChild(playerNewCardNode);
   });
 });
