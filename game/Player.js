@@ -3,8 +3,14 @@ class Player {
     this.hand = [];
     this.score = 0;
     this.bank = 5000;
+    this.betAmount = 0;
     this.playerTurn = true;
     this.deck = deck;
+  }
+  placeBet(bet) {
+    this.betAmount = bet;
+    this.bank -= this.betAmount;
+    return this.betAmount;
   }
   calculateScore() {
     this.score = 0;
