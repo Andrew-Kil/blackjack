@@ -40,4 +40,24 @@ document.getElementById("start-button").addEventListener("click", function() {
   playerDiv.appendChild(playerCardsText);
   playerDiv.appendChild(playerCardsNode);
   rootDiv.appendChild(playerDiv);
+
+  const standButton = document.createElement("button");
+  const standButtonText = document.createTextNode("stand");
+  standButton.setAttribute("id", "stand-button");
+  standButton.appendChild(standButtonText);
+  rootDiv.appendChild(standButton);
+
+  document.getElementById("stand-button").addEventListener("click", function() {
+    game.player.stand();
+  });
+
+  const hitButton = document.createElement("button");
+  const hitButtonText = document.createTextNode("hit");
+  hitButton.setAttribute("id", "hit-button");
+  hitButton.appendChild(hitButtonText);
+  rootDiv.appendChild(hitButton);
+
+  document.getElementById("hit-button").addEventListener("click", function() {
+    game.player.hit();
+  });
 });
