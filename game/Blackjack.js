@@ -3,21 +3,23 @@ import Deck from "./Deck.js";
 
 class Blackjack {
   constructor() {
-    this.player = new Player();
-    this.dealer = new Player();
+    this.deck = null;
+    this.player = null;
+    this.dealer = null;
   }
   start() {
-    console.log("game started");
     // while (!this.isGameOver()) {
     this.deck = new Deck();
     this.deck.shuffle();
+    this.player = new Player(this.deck);
+    this.dealer = new Player(this.deck);
     this.dealCards();
-    console.log("player hand ", this.player.hand);
-    console.log("dealer hand ", this.dealer.hand);
     this.player.turn = true;
-    if (this.player.turn) {
-      this.checkHand(this.player);
-      console.log("player score ", this.player.score);
+    while (this.player.turn) {
+      this.player.checkHand();
+      console.log("player score", this.player.score);
+
+      this.player.turn = false;
     }
     if (this.dealer.turn) {
       this.checkHand(this.dealer);
@@ -33,9 +35,6 @@ class Blackjack {
     this.dealer.hand.push(this.deck.drawCard());
     this.player.hand.push(this.deck.drawCard());
     this.dealer.hand.push(this.deck.drawCard());
-  }
-  checkHand(whichPlayer) {
-    whichPlayer.checkHand(whichPlayer.hand);
   }
 }
 

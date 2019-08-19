@@ -1,31 +1,39 @@
 class Player {
-  constructor() {
+  constructor(deck) {
     this.hand = [];
     this.score = 0;
     this.bank = 5000;
-    this.turn = false;
+    this.playerTurn = true;
+    this.deck = deck;
   }
   calculateScore() {
-    // calculateScore is called every time the player performs an action
+    this.score = 0;
     this.hand.forEach(card => (this.score += card.value));
     return this.score;
   }
   endTurn() {
-    this.turn = !this.turn;
+    this.playerTurn = false;
+    console.log("turn ended");
+    return this.endTurn;
   }
   checkHand() {
-    // checkHand is called every time the player performs an action (after calculateScore)
     this.calculateScore();
     if (this.score > 21) {
       this.endTurn();
     }
   }
   stand() {
-    // player turn ends and dealer turn begins. dealer reveals hidden card and performs their series of events
+    console.log("stand");
     this.endTurn();
   }
   hit() {
-    // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins
+    console.log("hit");
+    console.log(this.deck);
+    this.hand.push(this.deck.drawCard());
+    console.log(this.hand);
+    this.checkHand();
+    console.log(this.score);
+    return this.hand;
   }
 }
 
