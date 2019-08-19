@@ -11,7 +11,8 @@ class Player {
     return this.score;
   }
   endTurn() {
-    this.turn = !this.turn;
+    this.turn = true;
+    return this.turn;
   }
   checkHand() {
     // checkHand is called every time the player performs an action (after calculateScore)
@@ -22,7 +23,7 @@ class Player {
   }
   stand() {
     // player turn ends and dealer turn begins. dealer reveals hidden card and performs their series of events
-    this.endTurn();
+    return this.endTurn();
   }
   hit() {
     // player draws one card. player can hit as many times as they want. if score > 21, dealer reveals hidden card and wins

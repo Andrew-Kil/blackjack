@@ -7,7 +7,6 @@ class Blackjack {
     this.dealer = new Player();
   }
   start() {
-    console.log("game started");
     // while (!this.isGameOver()) {
     this.deck = new Deck();
     this.deck.shuffle();
@@ -34,8 +33,8 @@ class Blackjack {
     this.player.hand.push(this.deck.drawCard());
     this.dealer.hand.push(this.deck.drawCard());
   }
-  checkHand(whichPlayer) {
-    whichPlayer.checkHand(whichPlayer.hand);
+  checkHand(checkPlayer) {
+    checkPlayer.checkHand(checkPlayer.hand);
   }
 }
 
