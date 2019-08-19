@@ -5,37 +5,59 @@ const game = new Blackjack();
 
 const rootDiv = document.getElementById("blackjack-container");
 
-const betButton = document.createElement("button");
+const startButton = document.createElement("button");
 
 const dealerDiv = document.createElement("div");
 const playerDiv = document.createElement("div");
 
-const betButtonText = document.createTextNode("bet");
+const startButtonText = document.createTextNode("start");
 
-betButton.setAttribute("id", "bet-button");
-betButton.appendChild(betButtonText);
+startButton.setAttribute("id", "start-button");
+startButton.appendChild(startButtonText);
 
-rootDiv.appendChild(betButton);
+rootDiv.appendChild(startButton);
 
-document.getElementById("bet-button").addEventListener("click", function() {
+document.getElementById("start-button").addEventListener("click", function() {
+  rootDiv.removeChild(document.getElementById("start-button"));
+
+  game.startGame();
+
   const betHundredButton = document.createElement("button");
-  const betHundredButtonText = document.createTextNode("100");
+  const betHundredButtonText = document.createTextNode("$100");
   betHundredButton.setAttribute("id", "bet-hundred-button");
   betHundredButton.appendChild(betHundredButtonText);
   rootDiv.appendChild(betHundredButton);
 
+  const betAmount = document.createElement("div");
+  const betAmountText = document.createTextNode("bet: $0");
+  // betAmount.setAttribute("id", "bet-amount");
+  betAmount.appendChild(betAmountText);
+  rootDiv.appendChild(betAmount);
+
   const playerBank = document.createElement("div");
-  const playerBankText = document.createTextNode(`$${game.player.bank}`);
+  const playerBankText = document.createTextNode(`bank: $${game.player.bank}`);
   playerBank.appendChild(playerBankText);
+  rootDiv.appendChild(playerBank);
 
-  const startButton = document.createElement("button");
-  const startButtonText = document.createTextNode("start");
-  startButton.setAttribute("id", "start-button");
-  startButton.appendChild(startButtonText);
-  rootDiv.appendChild(startButton);
+  let totalBet = 0;
+  document
+    .getElementById("bet-hundred-button")
+    .addEventListener("click", function() {
+      totalBet += game.player.placeBet(100);
+      betAmountText.nodeValue = `bet: $${totalBet}`;
+      console.log(game.player.bank);
 
-  document.getElementById("start-button").addEventListener("click", function() {
-    game.start();
+      playerBankText.nodeValue = `bank: $${game.player.bank}`;
+    });
+
+  const playButton = document.createElement("button");
+  const playButtonText = document.createTextNode("play");
+  playButton.setAttribute("id", "play-button");
+  playButton.appendChild(playButtonText);
+  rootDiv.appendChild(playButton);
+
+  document.getElementById("play-button").addEventListener("click", function() {
+    game.playGame();
 
     const dealerCardsDiv = document.createElement("div");
     const playerCardsDiv = document.createElement("div");
