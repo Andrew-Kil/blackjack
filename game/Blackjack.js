@@ -38,6 +38,19 @@ class Blackjack {
     this.player.hand.push(this.deck.drawCard());
     this.dealer.hand.push(this.deck.drawCard());
   }
+  processBets() {
+    const playerScore = this.player.calculateScore();
+    const dealerScore = this.dealer.calculateScore();
+
+    if (
+      (dealerScore > 21 && playerScore <= 21) ||
+      (playerScore > dealerScore && playerScore <= 21)
+    ) {
+      this.player.bank += this.player.betAmount * 2;
+    } else if (dealerScore === playerScore) {
+      this.player.bank += this.player.betAmount;
+    }
+  }
 }
 
 export default Blackjack;

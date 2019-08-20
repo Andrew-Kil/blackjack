@@ -37,7 +37,8 @@ document.getElementById("start-button").addEventListener("click", function() {
   document
     .getElementById("bet-hundred-button")
     .addEventListener("click", function() {
-      totalBet += game.player.placeBet(100);
+      totalBet += 100;
+      game.player.placeBet(100);
       betAmount.innerHTML = `bet: $${totalBet}`;
       playerBank.innerHTML = `bank: $${game.player.bank}`;
     });
@@ -110,17 +111,17 @@ document.getElementById("start-button").addEventListener("click", function() {
               dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
             }
           }
+
+          game.processBets();
+
+          console.log("bet ", game.player.betAmount);
+          console.log("bank ", game.player.bank);
         });
 
       document
         .getElementById("hit-button")
         .addEventListener("click", function() {
           game.player.hit();
-
-          if (game.player.score > 21) {
-            rootDiv.removeChild(document.getElementById("stand-button"));
-            rootDiv.removeChild(document.getElementById("hit-button"));
-          }
 
           const lastCard = game.player.hand[game.player.hand.length - 1];
           const playerNewCardNode = document.createTextNode(
@@ -129,6 +130,16 @@ document.getElementById("start-button").addEventListener("click", function() {
           playerCardsDiv.appendChild(playerNewCardNode);
 
           playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
+
+          if (game.player.score > 21) {
+            rootDiv.removeChild(document.getElementById("stand-button"));
+            rootDiv.removeChild(document.getElementById("hit-button"));
+
+            game.processBets();
+
+            console.log("bet ", game.player.betAmount);
+            console.log("bank ", game.player.bank);
+          }
         });
     }
   });
