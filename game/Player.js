@@ -8,8 +8,8 @@ class Player {
     this.deck = deck;
   }
   placeBet(bet) {
-    this.betAmount = bet;
-    this.bank -= this.betAmount;
+    this.betAmount += bet;
+    this.bank -= bet;
     return this.betAmount;
   }
   calculateScore() {
@@ -39,7 +39,7 @@ class Player {
     console.log(this.hand);
     this.checkHand();
     console.log(this.score);
-    return this.hand;
+    return this.hand[this.hand.length - 1];
   }
 }
 
