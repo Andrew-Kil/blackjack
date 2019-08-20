@@ -7,13 +7,39 @@ const rootDiv = document.getElementById("blackjack-container");
 
 const startButton = document.createElement("button");
 startButton.innerHTML = "start";
+startButton.setAttribute("id", "start-button");
+rootDiv.appendChild(startButton);
 
 const dealerDiv = document.createElement("div");
 const playerDiv = document.createElement("div");
 
-startButton.setAttribute("id", "start-button");
+const createBetHundredButton = () => {
+  const betHundredButton = document.createElement("button");
+  betHundredButton.innerHTML = "$100";
+  betHundredButton.setAttribute("id", "bet-hundred-button");
+  rootDiv.appendChild(betHundredButton);
+};
 
-rootDiv.appendChild(startButton);
+const createDealButton = () => {
+  const dealButton = document.createElement("button");
+  dealButton.innerHTML = "deal";
+  dealButton.setAttribute("id", "deal-button");
+  rootDiv.appendChild(dealButton);
+};
+
+const createStandButton = () => {
+  const standButton = document.createElement("button");
+  standButton.innerHTML = "stand";
+  standButton.setAttribute("id", "stand-button");
+  rootDiv.appendChild(standButton);
+};
+
+const createHitButton = () => {
+  const hitButton = document.createElement("button");
+  hitButton.innerHTML = "hit";
+  hitButton.setAttribute("id", "hit-button");
+  rootDiv.appendChild(hitButton);
+};
 
 document.getElementById("start-button").addEventListener("click", function() {
   rootDiv.removeChild(document.getElementById("start-button"));
@@ -28,10 +54,7 @@ document.getElementById("start-button").addEventListener("click", function() {
   betAmount.innerHTML = "bet: $0";
   rootDiv.appendChild(betAmount);
 
-  const betHundredButton = document.createElement("button");
-  betHundredButton.innerHTML = "$100";
-  betHundredButton.setAttribute("id", "bet-hundred-button");
-  rootDiv.appendChild(betHundredButton);
+  createBetHundredButton();
 
   let totalBet = 0;
   document
@@ -43,10 +66,7 @@ document.getElementById("start-button").addEventListener("click", function() {
       playerBank.innerHTML = `bank: $${game.player.bank}`;
     });
 
-  const dealButton = document.createElement("button");
-  dealButton.innerHTML = "deal";
-  dealButton.setAttribute("id", "deal-button");
-  rootDiv.appendChild(dealButton);
+  createDealButton();
 
   document.getElementById("deal-button").addEventListener("click", function() {
     if (game.player.betAmount === 0) {
@@ -59,6 +79,7 @@ document.getElementById("start-button").addEventListener("click", function() {
 
       const dealerCardsDiv = document.createElement("div");
       const dealerScoreDiv = document.createElement("div");
+
       dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(card => {
         return `${card.value} of ${card.suit}`;
       })}`;
@@ -77,15 +98,9 @@ document.getElementById("start-button").addEventListener("click", function() {
       playerDiv.appendChild(playerScoreDiv);
       rootDiv.appendChild(playerDiv);
 
-      const standButton = document.createElement("button");
-      standButton.innerHTML = "stand";
-      standButton.setAttribute("id", "stand-button");
-      rootDiv.appendChild(standButton);
+      createStandButton();
 
-      const hitButton = document.createElement("button");
-      hitButton.innerHTML = "hit";
-      hitButton.setAttribute("id", "hit-button");
-      rootDiv.appendChild(hitButton);
+      createHitButton();
 
       document
         .getElementById("stand-button")
@@ -93,7 +108,6 @@ document.getElementById("start-button").addEventListener("click", function() {
           game.player.stand();
           rootDiv.removeChild(document.getElementById("stand-button"));
           rootDiv.removeChild(document.getElementById("hit-button"));
-
           if (
             game.player.calculateScore() <= 21 &&
             game.player.calculateScore() > game.dealer.calculateScore()
@@ -134,7 +148,6 @@ document.getElementById("start-button").addEventListener("click", function() {
           if (game.player.score > 21) {
             rootDiv.removeChild(document.getElementById("stand-button"));
             rootDiv.removeChild(document.getElementById("hit-button"));
-
             game.processBets();
 
             console.log("bet ", game.player.betAmount);

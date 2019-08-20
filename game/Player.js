@@ -36,6 +36,7 @@ class Player {
     console.log("hit");
     console.log(this.deck);
     this.hand.push(this.deck.drawCard());
+    console.log(this.deck);
     console.log(this.hand);
     this.checkHand();
     console.log(this.score);
