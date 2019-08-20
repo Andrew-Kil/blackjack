@@ -92,6 +92,24 @@ document.getElementById("start-button").addEventListener("click", function() {
           game.player.stand();
           rootDiv.removeChild(document.getElementById("stand-button"));
           rootDiv.removeChild(document.getElementById("hit-button"));
+
+          if (
+            game.player.calculateScore() <= 21 &&
+            game.player.calculateScore() > game.dealer.calculateScore()
+          ) {
+            while (
+              game.dealer.calculateScore() < 17 ||
+              game.dealer.calculateScore() < game.player.calculateScore()
+            ) {
+              game.dealer.hit();
+              dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
+                card => {
+                  return `${card.value} of ${card.suit}`;
+                }
+              )}`;
+              dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
+            }
+          }
         });
 
       document
@@ -104,15 +122,13 @@ document.getElementById("start-button").addEventListener("click", function() {
             rootDiv.removeChild(document.getElementById("hit-button"));
           }
 
-          console.log(game.player.playerTurn);
-
           const lastCard = game.player.hand[game.player.hand.length - 1];
           const playerNewCardNode = document.createTextNode(
             `,${lastCard.value} of ${lastCard.suit}`
           );
           playerCardsDiv.appendChild(playerNewCardNode);
 
-          playerScoreDiv.innerHTML = `${game.player.calculateScore()}`;
+          playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
         });
     }
   });

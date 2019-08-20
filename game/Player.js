@@ -39,7 +39,7 @@ class Player {
     console.log(this.hand);
     this.checkHand();
     console.log(this.score);
-    return this.hand;
+    return this.hand[this.hand.length - 1];
   }
 }
 
