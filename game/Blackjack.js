@@ -17,17 +17,16 @@ class Blackjack {
     // while (!this.isGameOver()) {
 
     this.dealCards();
-    this.player.turn = true;
-    while (this.player.turn) {
-      this.player.checkHand();
-      console.log("player score", this.player.score);
+    // while (this.player.playerTurn) {
+    //   this.player.checkHand();
+    //   console.log("player score ", this.player.score);
 
-      this.player.turn = false;
-    }
-    if (this.dealer.turn) {
-      this.checkHand(this.dealer);
-      console.log("dealer score ", this.dealer.score);
-    }
+    //   this.player.playerTurn = false;
+    // }
+    // if (this.dealer.playerTurn) {
+    //   this.dealer.checkHand(this.dealer);
+    //   console.log("dealer score ", this.dealer.score);
+    // }
     // }
   }
   isGameOver() {

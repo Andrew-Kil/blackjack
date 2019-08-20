@@ -45,8 +45,6 @@ document.getElementById("start-button").addEventListener("click", function() {
     .addEventListener("click", function() {
       totalBet += game.player.placeBet(100);
       betAmountText.nodeValue = `bet: $${totalBet}`;
-      console.log(game.player.bank);
-
       playerBankText.nodeValue = `bank: $${game.player.bank}`;
     });
 
@@ -117,12 +115,6 @@ document.getElementById("start-button").addEventListener("click", function() {
       standButton.appendChild(standButtonText);
       rootDiv.appendChild(standButton);
 
-      document
-        .getElementById("stand-button")
-        .addEventListener("click", function() {
-          game.player.stand();
-        });
-
       const hitButton = document.createElement("button");
       const hitButtonText = document.createTextNode("hit");
       hitButton.setAttribute("id", "hit-button");
@@ -130,9 +122,24 @@ document.getElementById("start-button").addEventListener("click", function() {
       rootDiv.appendChild(hitButton);
 
       document
+        .getElementById("stand-button")
+        .addEventListener("click", function() {
+          game.player.stand();
+          rootDiv.removeChild(document.getElementById("stand-button"));
+          rootDiv.removeChild(document.getElementById("hit-button"));
+        });
+
+      document
         .getElementById("hit-button")
         .addEventListener("click", function() {
           game.player.hit();
+
+          if (game.player.score > 21) {
+            rootDiv.removeChild(document.getElementById("stand-button"));
+            rootDiv.removeChild(document.getElementById("hit-button"));
+          }
+
+          console.log(game.player.playerTurn);
 
           const lastCard = game.player.hand[game.player.hand.length - 1];
           const playerNewCardNode = document.createTextNode(
