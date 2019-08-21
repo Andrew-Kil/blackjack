@@ -33,10 +33,10 @@ class Blackjack {
     return this.player.bank <= 0;
   }
   dealCards() {
-    this.player.hand.push(this.deck.drawCard());
-    this.dealer.hand.push(this.deck.drawCard());
-    this.player.hand.push(this.deck.drawCard());
-    this.dealer.hand.push(this.deck.drawCard());
+    this.player.draw();
+    this.dealer.draw();
+    this.player.draw();
+    this.dealer.draw();
   }
   processBets() {
     const playerScore = this.player.calculateScore();

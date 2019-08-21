@@ -1,19 +1,22 @@
 import Blackjack from "./game/Blackjack.js";
 
+import {
+  createStartButton,
+  createDealButton,
+  createStandButton,
+  createBetHundredButton,
+  createHitButton
+} from "./helpers";
+
 const game = new Blackjack();
 // window.game = game;
 
 const rootDiv = document.getElementById("blackjack-container");
 
-const startButton = document.createElement("button");
-startButton.innerHTML = "start";
+createStartButton(rootDiv);
 
 const dealerDiv = document.createElement("div");
 const playerDiv = document.createElement("div");
-
-startButton.setAttribute("id", "start-button");
-
-rootDiv.appendChild(startButton);
 
 document.getElementById("start-button").addEventListener("click", function() {
   rootDiv.removeChild(document.getElementById("start-button"));
@@ -28,10 +31,7 @@ document.getElementById("start-button").addEventListener("click", function() {
   betAmount.innerHTML = "bet: $0";
   rootDiv.appendChild(betAmount);
 
-  const betHundredButton = document.createElement("button");
-  betHundredButton.innerHTML = "$100";
-  betHundredButton.setAttribute("id", "bet-hundred-button");
-  rootDiv.appendChild(betHundredButton);
+  createBetHundredButton(rootDiv);
 
   let totalBet = 0;
   document
@@ -43,10 +43,7 @@ document.getElementById("start-button").addEventListener("click", function() {
       playerBank.innerHTML = `bank: $${game.player.bank}`;
     });
 
-  const dealButton = document.createElement("button");
-  dealButton.innerHTML = "deal";
-  dealButton.setAttribute("id", "deal-button");
-  rootDiv.appendChild(dealButton);
+  createDealButton(rootDiv);
 
   document.getElementById("deal-button").addEventListener("click", function() {
     if (game.player.betAmount === 0) {
@@ -59,6 +56,7 @@ document.getElementById("start-button").addEventListener("click", function() {
 
       const dealerCardsDiv = document.createElement("div");
       const dealerScoreDiv = document.createElement("div");
+
       dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(card => {
         return `${card.value} of ${card.suit}`;
       })}`;
@@ -77,15 +75,9 @@ document.getElementById("start-button").addEventListener("click", function() {
       playerDiv.appendChild(playerScoreDiv);
       rootDiv.appendChild(playerDiv);
 
-      const standButton = document.createElement("button");
-      standButton.innerHTML = "stand";
-      standButton.setAttribute("id", "stand-button");
-      rootDiv.appendChild(standButton);
+      createStandButton(rootDiv);
 
-      const hitButton = document.createElement("button");
-      hitButton.innerHTML = "hit";
-      hitButton.setAttribute("id", "hit-button");
-      rootDiv.appendChild(hitButton);
+      createHitButton(rootDiv);
 
       document
         .getElementById("stand-button")
@@ -102,7 +94,7 @@ document.getElementById("start-button").addEventListener("click", function() {
               game.dealer.calculateScore() < 17 ||
               game.dealer.calculateScore() < game.player.calculateScore()
             ) {
-              game.dealer.hit();
+              game.dealer.draw();
               dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
                 card => {
                   return `${card.value} of ${card.suit}`;
@@ -121,7 +113,7 @@ document.getElementById("start-button").addEventListener("click", function() {
       document
         .getElementById("hit-button")
         .addEventListener("click", function() {
-          game.player.hit();
+          game.player.draw();
 
           const lastCard = game.player.hand[game.player.hand.length - 1];
           const playerNewCardNode = document.createTextNode(
@@ -134,7 +126,6 @@ document.getElementById("start-button").addEventListener("click", function() {
           if (game.player.score > 21) {
             rootDiv.removeChild(document.getElementById("stand-button"));
             rootDiv.removeChild(document.getElementById("hit-button"));
-
             game.processBets();
 
             console.log("bet ", game.player.betAmount);
