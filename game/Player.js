@@ -32,7 +32,7 @@ class Player {
     console.log("stand");
     this.endTurn();
   }
-  hit() {
+  draw() {
     console.log("hit");
     console.log(this.deck);
     this.hand.push(this.deck.drawCard());
