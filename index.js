@@ -58,7 +58,7 @@ document.getElementById("start-button").addEventListener("click", function() {
       const dealerScoreDiv = document.createElement("div");
 
       dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(card => {
-        return `${card.value} of ${card.suit}`;
+        return `${card.rank}${card.suit}`;
       })}`;
       dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
       dealerDiv.appendChild(dealerCardsDiv);
@@ -68,7 +68,7 @@ document.getElementById("start-button").addEventListener("click", function() {
       const playerCardsDiv = document.createElement("div");
       const playerScoreDiv = document.createElement("div");
       playerCardsDiv.innerHTML = `player cards: ${game.player.hand.map(card => {
-        return `${card.value} of ${card.suit}`;
+        return `${card.rank}${card.suit}`;
       })}`;
       playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
       playerDiv.appendChild(playerCardsDiv);
@@ -96,9 +96,7 @@ document.getElementById("start-button").addEventListener("click", function() {
             ) {
               game.dealer.draw();
               dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
-                card => {
-                  return `${card.value} of ${card.suit}`;
-                }
+                card => `${card.rank}${card.suit}`
               )}`;
               dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
             }
@@ -117,7 +115,7 @@ document.getElementById("start-button").addEventListener("click", function() {
 
           const lastCard = game.player.hand[game.player.hand.length - 1];
           const playerNewCardNode = document.createTextNode(
-            `,${lastCard.value} of ${lastCard.suit}`
+            `,${lastCard.rank}${lastCard.suit}`
           );
           playerCardsDiv.appendChild(playerNewCardNode);
 

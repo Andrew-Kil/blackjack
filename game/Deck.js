@@ -6,7 +6,7 @@ class Deck {
   }
   createDeck() {
     const cards = [];
-    const suits = ["clubs", "diamonds", "hearts", "spades"];
+    const suits = ["♣️", "♦️", "♥️", "♠️"];
     const ranks = [
       "A",
       "2",
