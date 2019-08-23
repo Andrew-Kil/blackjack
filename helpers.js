@@ -29,3 +29,8 @@ export const createHitButton = rootElement => {
   const hitButton = buttonMaker("hit");
   rootElement.appendChild(hitButton);
 };
+
+export const createNewGameButton = rootElement => {
+  const newGameButton = buttonMaker("new-game");
+  rootElement.appendChild(newGameButton);
+};
