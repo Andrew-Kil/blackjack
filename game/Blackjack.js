@@ -7,27 +7,14 @@ class Blackjack {
     this.player = null;
     this.dealer = null;
   }
-  startGame() {
+  newDeck() {
     this.deck = new Deck();
     this.deck.shuffle();
+  }
+  startGame() {
+    this.newDeck();
     this.player = new Player(this.deck);
     this.dealer = new Player(this.deck);
-  }
-  playGame() {
-    // while (!this.isGameOver()) {
-
-    this.dealCards();
-    // while (this.player.playerTurn) {
-    //   this.player.checkHand();
-    //   console.log("player score ", this.player.score);
-
-    //   this.player.playerTurn = false;
-    // }
-    // if (this.dealer.playerTurn) {
-    //   this.dealer.checkHand(this.dealer);
-    //   console.log("dealer score ", this.dealer.score);
-    // }
-    // }
   }
   isGameOver() {
     return this.player.bank <= 0;
@@ -51,6 +38,12 @@ class Blackjack {
       this.player.bank += this.player.betAmount;
     }
   }
+  reset() {
+    this.player.hand = [];
+    this.dealer.hand = [];
+    this.player.betAmount = 0;
+  }
+  endGame() {}
 }
 
 export default Blackjack;
