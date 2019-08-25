@@ -6,7 +6,9 @@ import {
   createStandButton,
   createBetHundredButton,
   createHitButton,
-  createNewGameButton
+  createNewGameButton,
+  disableButton,
+  enableButton
 } from "./helpers";
 
 const game = new Blackjack();
@@ -37,29 +39,38 @@ createStandButton(rootDiv);
 createHitButton(rootDiv);
 createNewGameButton(rootDiv);
 
-document.getElementById("bet-hundred-button").disabled = true;
-document.getElementById("deal-button").disabled = true;
-document.getElementById("stand-button").disabled = true;
-document.getElementById("hit-button").disabled = true;
-document.getElementById("new-game-button").disabled = true;
-
-let totalBet = 0;
+disableButton("bet-hundred-button");
+disableButton("deal-button");
+disableButton("stand-button");
+disableButton("hit-button");
+disableButton("new-game-button");
 
 const updateBetAndBank = () => {
-  betAmount.innerHTML = `bet: $${totalBet}`;
+  betAmount.innerHTML = `bet: $${game.player.betAmount}`;
   playerBank.innerHTML = `bank: $${game.player.bank}`;
+};
+
+const updatePlayerCardsAndScore = () => {
+  playerCardsDiv.innerHTML = `player cards: ${game.player.hand.map(
+    card => `${card.rank}${card.suit}`
+  )}`;
+  playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
+};
+
+const updateDealerCardsAndScore = () => {
+  dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
+    card => `${card.rank}${card.suit}`
+  )}`;
+  dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
 };
 
 const addClickToBetHundredButton = () =>
   document
     .getElementById("bet-hundred-button")
     .addEventListener("click", function() {
-      totalBet += 100;
       game.player.placeBet(100);
       updateBetAndBank();
     });
-
-addClickToBetHundredButton();
 
 const addClickToStartButton = () =>
   document.getElementById("start-button").addEventListener("click", function() {
@@ -72,44 +83,32 @@ const addClickToStartButton = () =>
     updateBetAndBank();
   });
 
-addClickToStartButton();
-
 const addClickToNewGameButton = () =>
   document
     .getElementById("new-game-button")
     .addEventListener("click", function() {
-      document.getElementById("new-game-button").disabled = true;
+      disableButton("new-game-button");
 
       game.reset();
 
-      dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(card => {
-        return `${card.rank}${card.suit}`;
-      })}`;
-      dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
+      updateDealerCardsAndScore();
+      updatePlayerCardsAndScore();
 
-      playerCardsDiv.innerHTML = `player cards: ${game.player.hand.map(card => {
-        return `${card.rank}${card.suit}`;
-      })}`;
-      playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
+      enableButton("deal-button");
+      enableButton("bet-hundred-button");
 
-      document.getElementById("deal-button").disabled = false;
-      document.getElementById("bet-hundred-button").disabled = false;
-
-      totalBet = 0;
       betAmount.innerHTML = `bet: $${game.player.betAmount}`;
     });
-
-addClickToNewGameButton();
 
 const addClickToStandButton = () =>
   document.getElementById("stand-button").addEventListener("click", function() {
     game.player.stand();
 
-    document.getElementById("stand-button").disabled = true;
-    document.getElementById("hit-button").disabled = true;
-    document.getElementById("new-game-button").disabled = false;
-    document.getElementById("bet-hundred-button").disabled = true;
-    document.getElementById("deal-button").disabled = true;
+    enableButton("new-game-button");
+    disableButton("stand-button");
+    disableButton("hit-button");
+    disableButton("bet-hundred-button");
+    disableButton("deal-button");
 
     if (
       game.player.calculateScore() <= 21 &&
@@ -120,20 +119,15 @@ const addClickToStandButton = () =>
         game.dealer.calculateScore() < game.player.calculateScore()
       ) {
         game.dealer.draw();
-        dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
-          card => `${card.rank}${card.suit}`
-        )}`;
-        dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
 
-        betAmount.innerHTML = `bet: $${totalBet}`;
-        playerBank.innerHTML = `bank: $${game.player.bank}`;
+        updateDealerCardsAndScore();
+
+        updateBetAndBank();
       }
     }
 
     game.processBets();
     game.reset();
-
-    totalBet = 0;
 
     updateBetAndBank();
   });
@@ -142,20 +136,14 @@ const addClickToHitButton = () =>
   document.getElementById("hit-button").addEventListener("click", function() {
     game.player.draw();
 
-    const lastCard = game.player.hand[game.player.hand.length - 1];
-    const playerNewCardNode = document.createTextNode(
-      `,${lastCard.rank}${lastCard.suit}`
-    );
-    playerCardsDiv.appendChild(playerNewCardNode);
-
-    playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
+    updatePlayerCardsAndScore();
 
     if (game.player.score > 21) {
-      document.getElementById("stand-button").disabled = true;
-      document.getElementById("hit-button").disabled = true;
       game.processBets();
 
-      document.getElementById("new-game-button").disabled = false;
+      disableButton("stand-button");
+      disableButton("hit-button");
+      enableButton("new-game-button");
     }
   });
 
@@ -163,25 +151,20 @@ document.getElementById("deal-button").addEventListener("click", function() {
   if (game.player.betAmount === 0) {
     window.alert("please place a bet");
   } else {
-    document.getElementById("deal-button").disabled = true;
-    document.getElementById("bet-hundred-button").disabled = true;
-
     game.dealCards();
 
-    dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
-      card => `${card.rank}${card.suit}`
-    )}`;
-    dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
+    updateDealerCardsAndScore();
+    updatePlayerCardsAndScore();
 
-    playerCardsDiv.innerHTML = `player cards: ${game.player.hand.map(
-      card => `${card.rank}${card.suit}`
-    )}`;
-    playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
-
-    document.getElementById("stand-button").disabled = false;
-    document.getElementById("hit-button").disabled = false;
-
-    addClickToStandButton();
-    addClickToHitButton();
+    disableButton("deal-button");
+    disableButton("bet-hundred-button");
+    enableButton("stand-button");
+    enableButton("hit-button");
   }
 });
+
+addClickToBetHundredButton();
+addClickToStartButton();
+addClickToNewGameButton();
+addClickToStandButton();
+addClickToHitButton();

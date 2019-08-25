@@ -34,3 +34,11 @@ export const createNewGameButton = rootElement => {
   const newGameButton = buttonMaker("new-game");
   rootElement.appendChild(newGameButton);
 };
+
+export const disableButton = button => {
+  document.getElementById(button).disabled = true;
+};
+
+export const enableButton = button => {
+  document.getElementById(button).disabled = false;
+};
