@@ -14,6 +14,20 @@ import {
 const game = new Blackjack();
 
 const rootDiv = document.getElementById("blackjack-container");
+
+createStartButton(rootDiv);
+createBetHundredButton(rootDiv);
+createDealButton(rootDiv);
+createStandButton(rootDiv);
+createHitButton(rootDiv);
+createNewGameButton(rootDiv);
+
+disableButton("bet-hundred-button");
+disableButton("deal-button");
+disableButton("stand-button");
+disableButton("hit-button");
+disableButton("new-game-button");
+
 const dealerDiv = document.createElement("div");
 const dealerCardsDiv = document.createElement("div");
 const dealerScoreDiv = document.createElement("div");
@@ -32,22 +46,9 @@ rootDiv.appendChild(playerDiv);
 rootDiv.appendChild(playerBank);
 rootDiv.appendChild(betAmount);
 
-createStartButton(rootDiv);
-createBetHundredButton(rootDiv);
-createDealButton(rootDiv);
-createStandButton(rootDiv);
-createHitButton(rootDiv);
-createNewGameButton(rootDiv);
-
-disableButton("bet-hundred-button");
-disableButton("deal-button");
-disableButton("stand-button");
-disableButton("hit-button");
-disableButton("new-game-button");
-
-const updateBetAndBank = () => {
-  betAmount.innerHTML = `bet: $${game.player.betAmount}`;
-  playerBank.innerHTML = `bank: $${game.player.bank}`;
+const updateBetAndBank = (bank = 1000, bet = 0) => {
+  playerBank.innerHTML = `bank: $${bank}`;
+  betAmount.innerHTML = `bet: $${bet}`;
 };
 
 const updatePlayerCardsAndScore = () => {
@@ -68,48 +69,43 @@ const addClickToBetHundredButton = () =>
   document
     .getElementById("bet-hundred-button")
     .addEventListener("click", function() {
-      game.player.placeBet(100);
-      updateBetAndBank();
+      if (game.player.bank <= 0) {
+        disableButton("bet-hundred-button");
+        alert("not enough money");
+      } else {
+        game.player.placeBet(100);
+        updateBetAndBank(game.player.bank, game.player.betAmount);
+      }
     });
 
 const addClickToStartButton = () =>
   document.getElementById("start-button").addEventListener("click", function() {
-    document.getElementById("start-button").disabled = true;
-    document.getElementById("bet-hundred-button").disabled = false;
-    document.getElementById("deal-button").disabled = false;
-
     game.startGame();
 
-    updateBetAndBank();
+    updateBetAndBank(game.player.bank, game.player.betAmount);
+
+    disableButton("start-button");
+    enableButton("bet-hundred-button");
+    enableButton("deal-button");
   });
 
 const addClickToNewGameButton = () =>
   document
     .getElementById("new-game-button")
     .addEventListener("click", function() {
-      disableButton("new-game-button");
-
       game.reset();
 
       updateDealerCardsAndScore();
       updatePlayerCardsAndScore();
+      updateBetAndBank(game.player.bank, game.player.betAmount);
 
+      disableButton("new-game-button");
       enableButton("deal-button");
       enableButton("bet-hundred-button");
-
-      betAmount.innerHTML = `bet: $${game.player.betAmount}`;
     });
 
 const addClickToStandButton = () =>
   document.getElementById("stand-button").addEventListener("click", function() {
-    game.player.stand();
-
-    enableButton("new-game-button");
-    disableButton("stand-button");
-    disableButton("hit-button");
-    disableButton("bet-hundred-button");
-    disableButton("deal-button");
-
     if (
       game.player.calculateScore() <= 21 &&
       game.player.calculateScore() > game.dealer.calculateScore()
@@ -120,16 +116,28 @@ const addClickToStandButton = () =>
       ) {
         game.dealer.draw();
 
+        updateBetAndBank(game.player.bank, game.player.betAmount);
         updateDealerCardsAndScore();
-
-        updateBetAndBank();
       }
     }
 
     game.processBets();
+
+    updateBetAndBank(game.player.bank, game.player.betAmount);
+    updateDealerCardsAndScore();
+
     game.reset();
 
-    updateBetAndBank();
+    disableButton("stand-button");
+    disableButton("hit-button");
+    disableButton("bet-hundred-button");
+    disableButton("deal-button");
+    enableButton("new-game-button");
+
+    if (game.isGameOver()) {
+      alert("game over");
+      disableButton("new-game-button");
+    }
   });
 
 const addClickToHitButton = () =>
@@ -141,30 +149,44 @@ const addClickToHitButton = () =>
     if (game.player.score > 21) {
       game.processBets();
 
-      disableButton("stand-button");
-      disableButton("hit-button");
-      enableButton("new-game-button");
+      updateBetAndBank(game.player.bank, game.player.betAmount);
+      updateDealerCardsAndScore();
+
+      if (game.isGameOver()) {
+        alert("game over");
+        disableButton("stand-button");
+        disableButton("hit-button");
+        disableButton("new-game-button");
+      }
+    } else {
+      enableButton("stand-button");
+      enableButton("hit-button");
+      disableButton("new-game-button");
     }
   });
 
-document.getElementById("deal-button").addEventListener("click", function() {
-  if (game.player.betAmount === 0) {
-    window.alert("please place a bet");
-  } else {
-    game.dealCards();
+const addClickToDealButton = () =>
+  document.getElementById("deal-button").addEventListener("click", function() {
+    if (game.player.betAmount === 0) {
+      alert("please place a bet");
+    } else {
+      game.dealCards();
 
-    updateDealerCardsAndScore();
-    updatePlayerCardsAndScore();
+      updateDealerCardsAndScore();
+      updatePlayerCardsAndScore();
 
-    disableButton("deal-button");
-    disableButton("bet-hundred-button");
-    enableButton("stand-button");
-    enableButton("hit-button");
-  }
-});
+      disableButton("deal-button");
+      disableButton("bet-hundred-button");
+      enableButton("stand-button");
+      enableButton("hit-button");
+    }
+  });
 
 addClickToBetHundredButton();
 addClickToStartButton();
 addClickToNewGameButton();
 addClickToStandButton();
 addClickToHitButton();
+addClickToDealButton();
+
+updateBetAndBank();
