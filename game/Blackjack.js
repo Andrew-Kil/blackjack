@@ -43,7 +43,6 @@ class Blackjack {
     this.dealer.hand = [];
     this.player.betAmount = 0;
   }
-  endGame() {}
 }
 
 export default Blackjack;
