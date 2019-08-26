@@ -4,11 +4,18 @@ import {
   createStartButton,
   createDealButton,
   createStandButton,
+  createBetOneButton,
+  createBetFiveButton,
+  createBetTwentyFiveButton,
   createBetHundredButton,
+  createBetFiveHundredButton,
+  createBetThousandButton,
   createHitButton,
   createNewGameButton,
-  disableButton,
-  enableButton
+  disable,
+  enable,
+  disableAllBets,
+  enableAllBets
 } from "./helpers";
 
 const game = new Blackjack();
@@ -16,17 +23,27 @@ const game = new Blackjack();
 const rootDiv = document.getElementById("blackjack-container");
 
 createStartButton(rootDiv);
+createBetOneButton(rootDiv);
+createBetFiveButton(rootDiv);
+createBetTwentyFiveButton(rootDiv);
 createBetHundredButton(rootDiv);
+createBetFiveHundredButton(rootDiv);
+createBetThousandButton(rootDiv);
 createDealButton(rootDiv);
 createStandButton(rootDiv);
 createHitButton(rootDiv);
 createNewGameButton(rootDiv);
 
-disableButton("bet-hundred-button");
-disableButton("deal-button");
-disableButton("stand-button");
-disableButton("hit-button");
-disableButton("new-game-button");
+disable("bet-one-button");
+disable("bet-five-button");
+disable("bet-twenty-five-button");
+disable("bet-hundred-button");
+disable("bet-five-hundred-button");
+disable("bet-thousand-button");
+disable("deal-button");
+disable("stand-button");
+disable("hit-button");
+disable("new-game-button");
 
 const dealerDiv = document.createElement("div");
 const dealerCardsDiv = document.createElement("div");
@@ -65,18 +82,16 @@ const updateDealerCardsAndScore = () => {
   dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
 };
 
-const addClickToBetHundredButton = () =>
-  document
-    .getElementById("bet-hundred-button")
-    .addEventListener("click", function() {
-      if (game.player.bank <= 0) {
-        disableButton("bet-hundred-button");
-        alert("not enough money");
-      } else {
-        game.player.placeBet(100);
-        updateBetAndBank(game.player.bank, game.player.betAmount);
-      }
-    });
+const addClickToBetButton = (buttonType, amount) =>
+  document.getElementById(buttonType).addEventListener("click", function() {
+    if (game.player.bank - amount < 0) {
+      disable(buttonType);
+      alert("not enough money");
+    } else {
+      game.player.placeBet(amount);
+      updateBetAndBank(game.player.bank, game.player.betAmount);
+    }
+  });
 
 const addClickToStartButton = () =>
   document.getElementById("start-button").addEventListener("click", function() {
@@ -84,9 +99,9 @@ const addClickToStartButton = () =>
 
     updateBetAndBank(game.player.bank, game.player.betAmount);
 
-    disableButton("start-button");
-    enableButton("bet-hundred-button");
-    enableButton("deal-button");
+    disable("start-button");
+    enable("deal-button");
+    enableAllBets();
   });
 
 const addClickToNewGameButton = () =>
@@ -99,9 +114,9 @@ const addClickToNewGameButton = () =>
       updatePlayerCardsAndScore();
       updateBetAndBank(game.player.bank, game.player.betAmount);
 
-      disableButton("new-game-button");
-      enableButton("deal-button");
-      enableButton("bet-hundred-button");
+      disable("new-game-button");
+      enable("deal-button");
+      enableAllBets();
     });
 
 const addClickToStandButton = () =>
@@ -128,15 +143,15 @@ const addClickToStandButton = () =>
 
     game.reset();
 
-    disableButton("stand-button");
-    disableButton("hit-button");
-    disableButton("bet-hundred-button");
-    disableButton("deal-button");
-    enableButton("new-game-button");
+    disable("stand-button");
+    disable("hit-button");
+    disable("bet-hundred-button");
+    disable("deal-button");
+    enable("new-game-button");
 
     if (game.isGameOver()) {
       alert("game over");
-      disableButton("new-game-button");
+      disable("new-game-button");
     }
   });
 
@@ -154,14 +169,14 @@ const addClickToHitButton = () =>
 
       if (game.isGameOver()) {
         alert("game over");
-        disableButton("stand-button");
-        disableButton("hit-button");
-        disableButton("new-game-button");
+        disable("stand-button");
+        disable("hit-button");
+        disable("new-game-button");
       }
     } else {
-      enableButton("stand-button");
-      enableButton("hit-button");
-      disableButton("new-game-button");
+      enable("stand-button");
+      enable("hit-button");
+      disable("new-game-button");
     }
   });
 
@@ -175,14 +190,20 @@ const addClickToDealButton = () =>
       updateDealerCardsAndScore();
       updatePlayerCardsAndScore();
 
-      disableButton("deal-button");
-      disableButton("bet-hundred-button");
-      enableButton("stand-button");
-      enableButton("hit-button");
+      disable("deal-button");
+      enable("stand-button");
+      enable("hit-button");
+      disableAllBets();
     }
   });
 
-addClickToBetHundredButton();
+addClickToBetButton("bet-one-button", 1);
+addClickToBetButton("bet-five-button", 5);
+addClickToBetButton("bet-twenty-five-button", 25);
+addClickToBetButton("bet-hundred-button", 100);
+addClickToBetButton("bet-five-hundred-button", 500);
+addClickToBetButton("bet-thousand-button", 1000);
+
 addClickToStartButton();
 addClickToNewGameButton();
 addClickToStandButton();
