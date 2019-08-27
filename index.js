@@ -1,92 +1,50 @@
 import Blackjack from "./game/Blackjack.js";
 
 import {
-  createStartButton,
-  createDealButton,
-  createStandButton,
-  createBetOneButton,
-  createBetFiveButton,
-  createBetTwentyFiveButton,
-  createBetHundredButton,
-  createBetFiveHundredButton,
-  createBetThousandButton,
-  createHitButton,
-  createNewGameButton,
   disable,
   enable,
   disableAllBets,
+  disableAllActions,
   enableAllBets
 } from "./helpers";
 
 const game = new Blackjack();
 
-const rootDiv = document.getElementById("blackjack-container");
-
-createStartButton(rootDiv);
-createBetOneButton(rootDiv);
-createBetFiveButton(rootDiv);
-createBetTwentyFiveButton(rootDiv);
-createBetHundredButton(rootDiv);
-createBetFiveHundredButton(rootDiv);
-createBetThousandButton(rootDiv);
-createDealButton(rootDiv);
-createStandButton(rootDiv);
-createHitButton(rootDiv);
-createNewGameButton(rootDiv);
-
-disable("bet-one-button");
-disable("bet-five-button");
-disable("bet-twenty-five-button");
-disable("bet-hundred-button");
-disable("bet-five-hundred-button");
-disable("bet-thousand-button");
-disable("deal-button");
-disable("stand-button");
-disable("hit-button");
-disable("new-game-button");
-
-const dealerDiv = document.createElement("div");
-const dealerCardsDiv = document.createElement("div");
-const dealerScoreDiv = document.createElement("div");
-const playerDiv = document.createElement("div");
-const playerCardsDiv = document.createElement("div");
-const playerScoreDiv = document.createElement("div");
-const playerBank = document.createElement("div");
-const betAmount = document.createElement("div");
-
-dealerDiv.appendChild(dealerCardsDiv);
-dealerDiv.appendChild(dealerScoreDiv);
-playerDiv.appendChild(playerCardsDiv);
-playerDiv.appendChild(playerScoreDiv);
-rootDiv.appendChild(dealerDiv);
-rootDiv.appendChild(playerDiv);
-rootDiv.appendChild(playerBank);
-rootDiv.appendChild(betAmount);
+disableAllBets();
+disableAllActions();
 
 const updateBetAndBank = (bank = 1000, bet = 0) => {
-  playerBank.innerHTML = `bank: $${bank}`;
-  betAmount.innerHTML = `bet: $${bet}`;
+  document.getElementById("player-bank").innerHTML = `Bank: $${bank}`;
+  document.getElementById("bet-amount").innerHTML = `Bet: $${bet}`;
 };
 
 const updatePlayerCardsAndScore = () => {
-  playerCardsDiv.innerHTML = `player cards: ${game.player.hand.map(
+  document.getElementById(
+    "player-cards"
+  ).innerHTML = `Player cards: ${game.player.hand.map(
     card => `${card.rank}${card.suit}`
   )}`;
-  playerScoreDiv.innerHTML = `player score: ${game.player.calculateScore()}`;
+  document.getElementById(
+    "player-score"
+  ).innerHTML = `Player score: ${game.player.calculateScore()}`;
 };
 
 const updateDealerCardsAndScore = () => {
-  dealerCardsDiv.innerHTML = `dealer cards: ${game.dealer.hand.map(
+  document.getElementById(
+    "dealer-cards"
+  ).innerHTML = `Dealer cards: ${game.dealer.hand.map(
     card => `${card.rank}${card.suit}`
   )}`;
-  dealerScoreDiv.innerHTML = `dealer score: ${game.dealer.calculateScore()}`;
+  document.getElementById(
+    "dealer-score"
+  ).innerHTML = `Dealer score: ${game.dealer.calculateScore()}`;
 };
 
 const addClickToBetButton = (buttonType, amount) =>
   document.getElementById(buttonType).addEventListener("click", function() {
     if (game.player.bank - amount < 0) {
       disable(buttonType);
-      alert("not enough money");
+      alert("Not enough money");
     } else {
       game.player.placeBet(amount);
       updateBetAndBank(game.player.bank, game.player.betAmount);
@@ -148,11 +106,6 @@ const addClickToStandButton = () =>
     disable("bet-hundred-button");
     disable("deal-button");
     enable("new-game-button");
-
-    if (game.isGameOver()) {
-      alert("game over");
-      disable("new-game-button");
-    }
   });
 
 const addClickToHitButton = () =>
@@ -167,12 +120,9 @@ const addClickToHitButton = () =>
       updateBetAndBank(game.player.bank, game.player.betAmount);
       updateDealerCardsAndScore();
 
-      if (game.isGameOver()) {
-        alert("game over");
-        disable("stand-button");
-        disable("hit-button");
-        disable("new-game-button");
-      }
+      disable("stand-button");
+      disable("hit-button");
+      enable("new-game-button");
     } else {
       enable("stand-button");
       enable("hit-button");

@@ -8,5 +8,5 @@
 
 ### gui
 
-- [ ] add input/slider/buttons for bets
-- [ ] add buttons for poker chips
+- [x] add input/slider/buttons for bets
+- [ ] add game status messages
