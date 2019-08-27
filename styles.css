@@ -1,0 +1,131 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: lightgray;
+}
+
+#header-title {
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+#header-image {
+  border-radius: 25px;
+  display: block;
+  height: 300px;
+  margin: auto;
+  margin-bottom: 5%;
+  width: 300px;
+}
+
+#table {
+  background-color: #006600;
+  border: 35px solid #1b1b1b;
+  border-radius: 100px;
+  height: 440px;
+  margin: auto;
+  width: 700px;
+  margin-bottom: 10%;
+}
+
+#bank-bet-container {
+  height: 20%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#player-bank,
+#bet-amount {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: yellow;
+  font-size: 20px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+#game-actions-container,
+#dealer,
+#player {
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#dealer-cards,
+#dealer-score,
+#player-cards,
+#player-score {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+}
+
+#start-button,
+#deal-button,
+#stand-button,
+#hit-button,
+#new-game-button {
+  width: 80px;
+  height: 25px;
+  border-radius: 5px;
+  font-weight: 800;
+}
+
+#bet-buttons-container {
+  height: 20%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 75%;
+  margin: 0 auto;
+}
+
+#bet-one-button,
+#bet-five-button,
+#bet-twenty-five-button,
+#bet-hundred-button,
+#bet-five-hundred-button,
+#bet-thousand-button {
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 0;
+}
+
+#bet-one-button {
+  border: 5px dashed blue;
+}
+
+#bet-five-button {
+  border: 5px dashed red;
+}
+
+#bet-twenty-five-button {
+  border: 5px dashed green;
+}
+
+#bet-hundred-button {
+  border: 5px dashed black;
+}
+
+#bet-five-hundred-button {
+  border: 5px dashed purple;
+}
+
+#bet-thousand-button {
+  border: 5px dashed orange;
+}
