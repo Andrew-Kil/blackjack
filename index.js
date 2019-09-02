@@ -60,6 +60,9 @@ const addClickToStartButton = () =>
     disable("start-button");
     enable("deal-button");
     enableAllBets();
+
+    document.getElementById("table").classList.remove("hidden");
+    document.getElementById("header").setAttribute("style", "display: none");
   });
 
 const addClickToNewGameButton = () =>
