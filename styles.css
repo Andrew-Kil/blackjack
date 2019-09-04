@@ -8,7 +8,11 @@ body {
 }
 
 #blackjack-container {
+  height: 100%;
   margin-top: 5%;
+  min-height: 50%;
+  min-width: 50%;
+  width: 100%;
 }
 
 #header {
@@ -35,14 +39,14 @@ body {
   background-color: #006600;
   border: 35px solid #1b1b1b;
   border-radius: 100px;
-  height: 440px;
+  height: 80%;
   margin: auto;
-  width: 700px;
+  width: 80%;
   margin-bottom: 10%;
 }
 
 #bank-bet-container {
-  height: 20%;
+  height: 15%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -63,14 +67,27 @@ body {
 #game-actions-container,
 #dealer,
 #player {
-  height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#game-actions-container {
+  width: 50%;
+  margin: 0 auto;
+  justify-content: space-around;
+}
+
+#dealer,
+#player {
+  flex-direction: column;
+  height: 25%;
+}
+
+#dealer-cards-text,
 #dealer-cards,
 #dealer-score,
+#player-cards-text,
 #player-cards,
 #player-score {
   width: 100%;
@@ -79,6 +96,10 @@ body {
   align-items: center;
   color: white;
   font-size: 18px;
+}
+
+#player-cards-text {
+  float: left;
 }
 
 #start-button,
@@ -141,4 +162,15 @@ body {
 
 .hidden {
   display: none;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 4px 4px black;
+  border-radius: 5px;
+  color: black;
+  height: 60px;
+  margin: 5px;
+  padding: 10px;
+  width: 45px;
 }

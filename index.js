@@ -19,22 +19,40 @@ const updateBetAndBank = (bank = 1000, bet = 0) => {
 };
 
 const updatePlayerCardsAndScore = () => {
-  document.getElementById(
-    "player-cards"
-  ).innerHTML = `Player cards: ${game.player.hand.map(
-    card => `${card.rank}${card.suit}`
-  )}`;
+  document.getElementById("player-cards-text").innerHTML = "Player cards: ";
+  if (game.player.hand.length === 2) {
+    game.player.hand.map(card => {
+      let cardDiv = document.createElement("div");
+      cardDiv.innerHTML = `${card.rank} ${card.suit}`;
+      cardDiv.classList.add("card");
+      document.getElementById("player-cards").appendChild(cardDiv);
+    });
+  } else if (game.player.hand.length > 2) {
+    let newCardDiv = document.createElement("div");
+    newCardDiv.innerHTML = `${game.player.hand[game.player.hand.length - 1].rank} ${game.player.hand[game.player.hand.length - 1].suit}`;
+    newCardDiv.classList.add("card");
+    document.getElementById("player-cards").appendChild(newCardDiv);
+  }
   document.getElementById(
     "player-score"
   ).innerHTML = `Player score: ${game.player.calculateScore()}`;
 };
 
 const updateDealerCardsAndScore = () => {
-  document.getElementById(
-    "dealer-cards"
-  ).innerHTML = `Dealer cards: ${game.dealer.hand.map(
-    card => `${card.rank}${card.suit}`
-  )}`;
+  document.getElementById("dealer-cards-text").innerHTML = "Dealer cards: ";
+  if (game.dealer.hand.length === 2) {
+    game.dealer.hand.map(card => {
+      let cardDiv = document.createElement("div");
+      cardDiv.innerHTML = `${card.rank} ${card.suit}`;
+      cardDiv.classList.add("card");
+      document.getElementById("dealer-cards").appendChild(cardDiv);
+    });
+  } else if (game.dealer.hand.length > 2) {
+    let newCardDiv = document.createElement("div");
+    newCardDiv.innerHTML = `${game.dealer.hand[game.dealer.hand.length - 1].rank} ${game.dealer.hand[game.dealer.hand.length - 1].suit}`;
+    newCardDiv.classList.add("card");
+    document.getElementById("dealer-cards").appendChild(newCardDiv);
+  }
   document.getElementById(
     "dealer-score"
   ).innerHTML = `Dealer score: ${game.dealer.calculateScore()}`;
@@ -71,9 +89,23 @@ const addClickToNewGameButton = () =>
     .addEventListener("click", function() {
       game.reset();
 
+      const playerCards = document.getElementById("player-cards");
+      while (playerCards.firstChild) {
+        playerCards.removeChild(playerCards.firstChild);
+      }
+
+      const dealerCards = document.getElementById("dealer-cards");
+      while (dealerCards.firstChild) {
+        dealerCards.removeChild(dealerCards.firstChild);
+      }
+
       updateDealerCardsAndScore();
       updatePlayerCardsAndScore();
       updateBetAndBank(game.player.bank, game.player.betAmount);
+      document.getElementById("dealer-cards-text").innerHTML = "";
+      document.getElementById("dealer-score").innerHTML = "";
+      document.getElementById("player-cards-text").innerHTML = "";
+      document.getElementById("player-score").innerHTML = "";
 
       disable("new-game-button");
       enable("deal-button");
@@ -91,17 +123,12 @@ const addClickToStandButton = () =>
         game.dealer.calculateScore() < game.player.calculateScore()
       ) {
         game.dealer.draw();
-
-        updateBetAndBank(game.player.bank, game.player.betAmount);
         updateDealerCardsAndScore();
       }
     }
 
     game.processBets();
-
     updateBetAndBank(game.player.bank, game.player.betAmount);
-    updateDealerCardsAndScore();
-
     game.reset();
 
     disable("stand-button");
@@ -121,7 +148,6 @@ const addClickToHitButton = () =>
       game.processBets();
 
       updateBetAndBank(game.player.bank, game.player.betAmount);
-      updateDealerCardsAndScore();
 
       disable("stand-button");
       disable("hit-button");
