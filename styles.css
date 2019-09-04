@@ -174,3 +174,25 @@ body {
   padding: 10px;
   width: 45px;
 }
+
+.card-back {
+  box-shadow: 4px 4px black;
+  border-radius: 5px;
+  color: transparent;
+  height: 60px;
+  margin: 5px;
+  padding: 10px;
+  width: 45px;
+  background: blue;
+  background: linear-gradient(
+        115deg,
+        transparent 75%,
+        rgba(255, 255, 255, 0.8) 75%
+      )
+      0 0,
+    linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%) 0 0,
+    linear-gradient(115deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%) 7px -15px,
+    linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%) 7px -15px,
+    blue;
+  background-size: 5px 10px;
+}
