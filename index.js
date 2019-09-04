@@ -13,6 +13,9 @@ const game = new Blackjack();
 disableAllBets();
 disableAllActions();
 
+const firstCardDiv = document.createElement("div");
+const secondCardDiv = document.createElement("div");
+
 const updateBetAndBank = (bank = 1000, bet = 0) => {
   document.getElementById("player-bank").innerHTML = `Bank: $${bank}`;
   document.getElementById("bet-amount").innerHTML = `Bet: $${bet}`;
@@ -22,13 +25,13 @@ const updatePlayerCardsAndScore = () => {
   document.getElementById("player-cards-text").innerHTML = "Player cards: ";
   if (game.player.hand.length === 2) {
     game.player.hand.map(card => {
-      let cardDiv = document.createElement("div");
+      const cardDiv = document.createElement("div");
       cardDiv.innerHTML = `${card.rank} ${card.suit}`;
       cardDiv.classList.add("card");
       document.getElementById("player-cards").appendChild(cardDiv);
     });
   } else if (game.player.hand.length > 2) {
-    let newCardDiv = document.createElement("div");
+    const newCardDiv = document.createElement("div");
     newCardDiv.innerHTML = `${game.player.hand[game.player.hand.length - 1].rank} ${game.player.hand[game.player.hand.length - 1].suit}`;
     newCardDiv.classList.add("card");
     document.getElementById("player-cards").appendChild(newCardDiv);
@@ -41,12 +44,13 @@ const updatePlayerCardsAndScore = () => {
 const updateDealerCardsAndScore = () => {
   document.getElementById("dealer-cards-text").innerHTML = "Dealer cards: ";
   if (game.dealer.hand.length === 2) {
-    game.dealer.hand.map(card => {
-      let cardDiv = document.createElement("div");
-      cardDiv.innerHTML = `${card.rank} ${card.suit}`;
-      cardDiv.classList.add("card");
-      document.getElementById("dealer-cards").appendChild(cardDiv);
-    });
+    firstCardDiv.innerHTML = `${game.dealer.hand[0].rank} ${game.dealer.hand[0].suit}`;
+    firstCardDiv.classList.add("card");
+    document.getElementById("dealer-cards").appendChild(firstCardDiv);
+
+    secondCardDiv.innerHTML = `${game.dealer.hand[1].rank} ${game.dealer.hand[1].suit}`;
+    secondCardDiv.classList.add("card-back");
+    document.getElementById("dealer-cards").appendChild(secondCardDiv);
   } else if (game.dealer.hand.length > 2) {
     let newCardDiv = document.createElement("div");
     newCardDiv.innerHTML = `${game.dealer.hand[game.dealer.hand.length - 1].rank} ${game.dealer.hand[game.dealer.hand.length - 1].suit}`;
@@ -136,6 +140,9 @@ const addClickToStandButton = () =>
     disable("bet-hundred-button");
     disable("deal-button");
     enable("new-game-button");
+
+    secondCardDiv.classList.remove("card-back");
+    secondCardDiv.classList.add("card");
   });
 
 const addClickToHitButton = () =>
