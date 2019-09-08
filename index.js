@@ -171,13 +171,11 @@ const addClickToHitButton = () =>
     updatePlayerCardsAndScore();
     game.player.calculateScore();
 
-    if (game.player.score >= 21) {
+    if (game.player.score > 21) {
       game.processBets();
       updateBetAndBank(game.player.bank, game.player.betAmount);
 
-      disable("stand-button");
       disable("hit-button");
-      enable("new-game-button");
     } else {
       enable("stand-button");
       enable("hit-button");
