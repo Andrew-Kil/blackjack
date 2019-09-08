@@ -36,9 +36,12 @@ body {
 }
 
 #table {
-  background-color: #006600;
+  background-color: #1752a4;
   border: 35px solid #1b1b1b;
-  border-radius: 100px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 100%;
   height: 80%;
   margin: auto;
   width: 80%;

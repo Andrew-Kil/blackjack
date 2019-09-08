@@ -64,20 +64,16 @@ const updateDealerCardsAndScore = () => {
       firstDealerCard.classList.add("card");
       document.getElementById("dealer-cards").appendChild(firstDealerCard);
     }, 500);
-
     setTimeout(function() {
       secondDealerCard.innerHTML = `${game.dealer.hand[1].rank} ${game.dealer.hand[1].suit}`;
       secondDealerCard.classList.add("card-back");
       document.getElementById("dealer-cards").appendChild(secondDealerCard);
     }, 1000);
   } else if (game.dealer.hand.length > 2) {
-    // setTimeout(function() {
     const newCard = document.createElement("div");
     newCard.innerHTML = `${game.dealer.hand[game.dealer.hand.length - 1].rank} ${game.dealer.hand[game.dealer.hand.length - 1].suit}`;
     newCard.classList.add("card");
     document.getElementById("dealer-cards").appendChild(newCard);
-    // }, 500);
-
     secondDealerCard.classList.remove("card-back");
   }
 };
@@ -172,12 +168,11 @@ const addClickToStandButton = () =>
 const addClickToHitButton = () =>
   document.getElementById("hit-button").addEventListener("click", function() {
     game.player.draw();
-
     updatePlayerCardsAndScore();
+    game.player.calculateScore();
 
-    if (game.player.score > 21) {
+    if (game.player.score >= 21) {
       game.processBets();
-
       updateBetAndBank(game.player.bank, game.player.betAmount);
 
       disable("stand-button");
