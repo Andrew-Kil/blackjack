@@ -1,24 +1,43 @@
 
 <img src="https://blackjack-21.netlify.com/AK.4303743c.jpg" width="250" height="250" />
 
+:diamonds: :clubs: :hearts: :spades: 
+
 # Blackjack
 
-This is a basic implementation of the classic card game, Blackjack. At the start of each round, the player places a bet before the cards are dealt. After the bets are collected, the player is dealt 2 cards (face up) and the dealer is dealt 2 cards (1 card face up & 1 card face down). The player always goes first and can choose to 'Hit' (draw a card) or 'Stand' (end turn) with the goal of beating the dealers score without going over 21 points. Currently in the process of finishing the core functionalities and implementing new features.
+### [https://blackjack-21.netlify.com/](https://blackjack-21.netlify.com/)
 
-## Built With
+## Summary
 
-* [Parcel](https://parceljs.org/) - Web application bundler
+* Tech Stack: HTML, CSS, JavaScript
+* Package(s): [Parcel](https://parceljs.org/) - Web application bundler
+* Hosting: [Netlify](https://www.netlify.com/)
+* IDE: [Visual Studio Code](https://code.visualstudio.com/)
 
-## To-Do List
+### Completed
 
----
+- [x] Create player & dealer
+- [x] Create deck & shuffle it
+- [x] Place & process bets
+- [x] Create buttons
+  - Bets
+  - Game actions
+    - Deal, Stand, Hit, New Game
+- [x] Deal card(s)
+- [x] Pay out bets when round is over
+- [x] Add custom styling for cards
 
-### game logic
+### Work In Progress
 
-- [ ] change ace point value (1 or 11)
+- [ ] Change Ace point value (1 or 11)
+- [ ] Add delay between cards
 
-### gui
+### Future Features
 
-- [x] add input/slider/buttons for bets
-- [ ] add game status messages
-- [ ] add delay between cards
+- [ ] Add status messages
+- [ ] Improve UI
+  - [ ] Style buttons
+  - [ ] Update fonts
+  - [ ] Change colors
+  - [ ] Add detail to table
+- [ ] Implement multiplayer functionality
