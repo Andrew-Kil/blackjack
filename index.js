@@ -8,6 +8,8 @@ import {
   showAllBets
 } from "./helpers";
 
+import updatePlayerCardsAndScore from "./game/helpers/updatePlayerCardsAndScore";
+
 const game = new Blackjack();
 
 hideAllBets();
@@ -21,39 +23,6 @@ const secondPlayerCard = document.createElement("div");
 const updateBetAndBank = (bank = 1000, bet = 0) => {
   document.getElementById("player-bank").innerHTML = `Bank: $${bank}`;
   document.getElementById("bet-amount").innerHTML = `Bet: $${bet}`;
-};
-
-const updatePlayerCardsAndScore = () => {
-  document.getElementById("player-cards-text").innerHTML = "Player cards: ";
-  if (game.player.hand.length === 2) {
-    setTimeout(function() {
-      firstPlayerCard.innerHTML = `${game.player.hand[0].rank} ${game.player.hand[0].suit}`;
-      firstPlayerCard.classList.add("card");
-      document.getElementById("player-cards").appendChild(firstPlayerCard);
-    }, 1500);
-    setTimeout(function() {
-      secondPlayerCard.innerHTML = `${game.player.hand[1].rank} ${game.player.hand[1].suit}`;
-      secondPlayerCard.classList.add("card");
-      document.getElementById("player-cards").appendChild(secondPlayerCard);
-    }, 2000);
-    setTimeout(function() {
-      document.getElementById(
-        "player-score"
-      ).innerHTML = `Player score: ${game.player.calculateScore()}`;
-    }, 2500);
-  } else if (game.player.hand.length > 2) {
-    setTimeout(function() {
-      const newCard = document.createElement("div");
-      newCard.innerHTML = `${game.player.hand[game.player.hand.length - 1].rank} ${game.player.hand[game.player.hand.length - 1].suit}`;
-      newCard.classList.add("card");
-      document.getElementById("player-cards").appendChild(newCard);
-    }, 500);
-    setTimeout(function() {
-      document.getElementById(
-        "player-score"
-      ).innerHTML = `Player score: ${game.player.calculateScore()}`;
-    }, 1000);
-  }
 };
 
 const updateDealerCardsAndScore = () => {
@@ -122,7 +91,7 @@ const addClickToNewGameButton = () =>
       }
 
       updateDealerCardsAndScore();
-      updatePlayerCardsAndScore();
+      updatePlayerCardsAndScore({ game, firstPlayerCard, secondPlayerCard });
       updateBetAndBank(game.player.bank, game.player.betAmount);
       document.getElementById("dealer-cards-text").innerHTML = "";
       document.getElementById("dealer-score").innerHTML = "";
@@ -170,7 +139,7 @@ const addClickToStandButton = () =>
 const addClickToHitButton = () =>
   document.getElementById("hit-button").addEventListener("click", function() {
     game.player.draw();
-    updatePlayerCardsAndScore();
+    updatePlayerCardsAndScore({ game, firstPlayerCard, secondPlayerCard });
     game.player.calculateScore();
 
     if (game.player.score > 21) {
@@ -193,7 +162,7 @@ const addClickToDealButton = () =>
       game.dealCards();
 
       updateDealerCardsAndScore();
-      updatePlayerCardsAndScore();
+      updatePlayerCardsAndScore({ game, firstPlayerCard, secondPlayerCard });
 
       hide("deal-button");
       show("stand-button");
