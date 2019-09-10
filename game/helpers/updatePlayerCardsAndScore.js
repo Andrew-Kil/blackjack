@@ -1,10 +1,8 @@
-const updatePlayerCardsAndScore = ({
+export const updatePlayerCardsAndScore = ({
   game,
   firstPlayerCard,
   secondPlayerCard
 }) => {
-  // const game = obj.game;
-  // const { game, firstPlayerCard, secondPlayerCard } = obj;
   document.getElementById("player-cards-text").innerHTML = "Player cards: ";
   if (game.player.hand.length === 2) {
     setTimeout(function() {
@@ -36,5 +34,3 @@ const updatePlayerCardsAndScore = ({
     }, 1000);
   }
 };
-
-export default updatePlayerCardsAndScore;

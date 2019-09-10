@@ -2,13 +2,13 @@ import Blackjack from "./game/Blackjack.js";
 
 import {
   hide,
-  show,
   hideAllBets,
-  hideAllActions,
-  showAllBets
-} from "./helpers";
+  hideAllActions
+} from "./game/helpers/buttons/hideButtons";
 
-import updatePlayerCardsAndScore from "./game/helpers/updatePlayerCardsAndScore";
+import { show, showAllBets } from "./game/helpers/buttons/showButtons";
+
+import { updatePlayerCardsAndScore } from "./game/helpers/updatePlayerCardsAndScore";
 
 const game = new Blackjack();
 
