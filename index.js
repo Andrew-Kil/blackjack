@@ -73,13 +73,18 @@ const updateDealerCardsAndScore = () => {
     const newCard = document.createElement("div");
     newCard.innerHTML = `${game.dealer.hand[game.dealer.hand.length - 1].rank} ${game.dealer.hand[game.dealer.hand.length - 1].suit}`;
     newCard.classList.add("card");
-    document.getElementById("dealer-cards").appendChild(newCard);
-    secondDealerCard.classList.remove("card-back");
+
+    setTimeout(function() {
+      document.getElementById("dealer-cards").appendChild(newCard);
+      secondDealerCard.classList.remove("card-back");
+    }, 500);
   }
 };
 
 const addClickToBetButton = (buttonType, amount) =>
   document.getElementById(buttonType).addEventListener("click", function() {
+    show("deal-button");
+
     if (game.player.bank - amount < 0) {
       hide(buttonType);
       alert("Not enough money");
@@ -92,11 +97,7 @@ const addClickToBetButton = (buttonType, amount) =>
 const addClickToStartButton = () =>
   document.getElementById("start-button").addEventListener("click", function() {
     game.startGame();
-
     updateBetAndBank(game.player.bank, game.player.betAmount);
-
-    hide("start-button");
-    show("deal-button");
     showAllBets();
 
     document.getElementById("table").classList.remove("hidden");
@@ -129,7 +130,7 @@ const addClickToNewGameButton = () =>
       document.getElementById("player-score").innerHTML = "";
 
       hide("new-game-button");
-      show("deal-button");
+      hide("deal-button");
       showAllBets();
     });
 
