@@ -14,6 +14,11 @@ class Player {
   calculateScore() {
     this.score = 0;
     this.hand.forEach(card => (this.score += card.value));
+    if (this.score > 21) {
+      this.hand.forEach(card => {
+        if (card.rank === "A") this.score -= 10;
+      });
+    }
     return this.score;
   }
   draw() {
