@@ -1,7 +1,6 @@
 class Player {
   constructor(deck) {
     this.hand = [];
-    this.score = 0;
     this.bank = 1000;
     this.betAmount = 0;
     this.deck = deck;
@@ -12,14 +11,14 @@ class Player {
     return this.betAmount;
   }
   calculateScore() {
-    this.score = 0;
-    this.hand.forEach(card => (this.score += card.value));
-    if (this.score > 21) {
+    let score = 0;
+    this.hand.forEach(card => (score += card.value));
+    if (score > 21) {
       this.hand.forEach(card => {
-        if (card.rank === "A") this.score -= 10;
+        if (card.rank === "A") score -= 10;
       });
     }
-    return this.score;
+    return score;
   }
   draw() {
     this.hand.push(this.deck.drawCard());
